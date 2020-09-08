@@ -33,7 +33,7 @@ echo "*****cymysql下载成功*****"
 $systemPackage install -y supervisor
 
 echo "************下载源码************"
-$systemPackage install git
+$systemPackage -y install git
 cd /usr/local/src
 git clone https://github.com/shadowsocks/shadowsocks-libev.git
 
