@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from manager import Manager
 import datetime
 import cymysql
@@ -5,6 +7,8 @@ import socket
 import logging
 import json
 import config
+import requests
+import re
 import time
 import os
 
@@ -43,12 +47,22 @@ class Dbtransfer(object):
     def list_port(self):
         list = Dbtransfer.send_command('list')
         return list
+    
+    #iP
+    def getouterip(self):
+        url='https://api.ip.sb/ip'
+        r=requests.get(url).text
+        ip=r.encode("utf-8")
+	ip=ip.rstrip()
+        return ip
+
 
     def getall(self):
         conn = cymysql.connect(host=config.MYSQL_HOST, port=config.MYSQL_PORT, user=config.MYSQL_USER,
                                            passwd=config.MYSQL_PASS, db=config.MYSQL_DB, charset='utf8')
         cur = conn.cursor()
-        cur.execute('SELECT * FROM user')
+        main_ip=self.getouterip()
+        cur.execute('SELECT * FROM user where main_ip= "%s"' % main_ip)
         rows = []
         for r in cur.fetchall():
             n_time = datetime.datetime.now()
