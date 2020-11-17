@@ -30,6 +30,7 @@ echo "编译环境"
 echo "************下载必要库************"
 $systemPackage -y install python-pip
 pip install cymysql==0.9.14
+pip install requests
 echo "*****cymysql下载成功*****"
 $systemPackage install -y supervisor
 
